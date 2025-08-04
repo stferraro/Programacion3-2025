@@ -1,0 +1,54 @@
+name: pre-commit
+
+on:
+  push:
+    branches:
+      - main
+      - "feature-*"
+  pull_request:
+    branches:
+      - main
+      - "feature-*"
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Cache pre-commit
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit|${{ runner.os }}|${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+          pip install pre-commit
+
+      - name: Install JS dependencies
+        run: |
+          npm install
+
+      - name: Run pre-commit
+        run: pre-commit run --all-files --show-diff-on-failure --color=always
+
+      - name: Check for new files
+        run: |
+          newfiles="$(git ls-files --others --exclude-from=.gitignore)"
+          if [ "$newfiles" != "" ] ; then
+              echo "Please check-in the following files:"
+              echo "$newfiles"
+              exit 1
+          fi
