@@ -60,11 +60,11 @@ class EstudianteUniversitario:
     def get_nivel(self):
         if self.__promedio_notas == 20:
             return "eximido"
-        elif self.__promedio_notas >= 16 and self.__promedio_notas <= 19:
+        elif self.__promedio_notas >= 16 and self.__promedio_notas < 20:
             return "excelente"
-        elif self.__promedio_notas >= 13 and self.__promedio_notas <= 15:
+        elif self.__promedio_notas >= 13 and self.__promedio_notas < 16:
             return "mas que suficiente"
-        elif self.__promedio_notas >= 10 and self.__promedio_notas <= 12:
+        elif self.__promedio_notas >= 10 and self.__promedio_notas < 13:
             return "suficiente"
         elif self.__promedio_notas <= 9:
             return "insuficiente"
