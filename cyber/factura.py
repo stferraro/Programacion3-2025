@@ -16,9 +16,9 @@ class Factura:
     def get_calcula_valor(self):
         if 60 <= self.__cliente._minutos_conectados <= 90:
             return 10
-        elif 40 <= self.__cliente._minutos_conectados <= 59:
+        elif 40 <= self.__cliente._minutos_conectados < 60:
             return 8
-        elif 20 <= self.__cliente._minutos_conectados <= 39:
+        elif 20 <= self.__cliente._minutos_conectados < 40:
             return 5
         elif self.__cliente._minutos_conectados < 20:
             return 3
